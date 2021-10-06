@@ -81,12 +81,22 @@ void readFile(vector<record>& Vector){
     file.close();
 }
 
+//funcion para guardar los datos en una lista
+void copyV2L(list<record>& li,vector<record>& vec){
+    for(int i=0;i<vec.size();i++){
+        li.push_back(vec[i]);
+    }
+}
+
 int main(){
     //creamos variables iniciales
     vector<record>* vec= new vector<record>();
-    list<int> li;
+    list<record> li;
+    list<record>::iterator it=li.begin();
 
     readFile(*vec);
-    cout<<vec->at(0).IPqrt1<<vec->at(0).IPqrt2<<vec->at(0).IPqrt3<<vec->at(0).IPqrt4<<vec->at(0).port;
+    //por alguna razon guarda los datos desde una posicion despues del prinipio del begin. para acceder al primer elemento es desde it++
+    copyV2L(li,*vec);
+
     return 0;
 }
