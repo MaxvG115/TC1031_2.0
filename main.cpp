@@ -105,5 +105,6 @@ int main(){
     //por alguna razon guarda los datos desde una posicion despues del prinipio del begin. para acceder al primer elemento es desde it++
     copyV2L(li,*vec);
 
+    createFile(li);
     return 0;
 }
