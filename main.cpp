@@ -89,9 +89,13 @@ void copyV2L(list<record>& li,vector<record>& vec){
 }
 
 void createFile(list<record>& li){
-    ofstream archivoResultados;
-    archivoResultados.open("bitacoraOrdenada-Eq#6.txt");
-    archivoResultados << li;
+    ofstream archivoResultados("bitacoraOrdenada-Eq#6.txt");
+    if (archivoResultados.fail()){
+        exit(0);
+    }
+    for (int i = 0; i< li.size(); i++){
+        archivoResultados << 
+    }
     archivoResultados.close();
 }
 
