@@ -88,6 +88,13 @@ void copyV2L(list<record>& li,vector<record>& vec){
     }
 }
 
+void createFile(){
+    ofstream archivoResultados;
+    archivoResultados.open("bitacoraOrdenada-Eq#6.txt");
+    
+    archivoResultados.close();
+}
+
 int main(){
     //creamos variables iniciales
     vector<record>* vec= new vector<record>();
