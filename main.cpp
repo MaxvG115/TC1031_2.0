@@ -107,6 +107,38 @@ void createFile(list<record>& li){
     archivoResultados.close();
 }
 
+//funcion de intercambio de variables
+void swap(record *a, record *b) {
+  record t = *a;
+  *a = *b;
+  *b = t;
+}
+
+//hacemos la particion de quicksort
+int partition(vector<record>& v, int low, int high) {
+  record pivot = v[high];
+  int i = (low - 1);
+
+  for (int j = low; j < high; j++) {
+    if (v[j] <= pivot) {
+      i++; 
+      swap(&v[i], &v[j]);
+    }
+  }
+  
+  swap(&v[i + 1], &v[high]);
+  return (i + 1);
+}
+
+//ordenamos el vector con quick sort
+void quickSort(vector<record>& v, int low, int high) {
+  if(low < high){
+    int p = partition(v, low, high);
+    quickSort(v, low, p - 1);
+    quickSort(v, p + 1, high);
+  }
+}
+
 int main(){
     //creamos variables iniciales
     vector<record>* vec= new vector<record>();
@@ -115,6 +147,7 @@ int main(){
 
     readFile(*vec);
     //por alguna razon guarda los datos desde una posicion despues del prinipio del begin. para acceder al primer elemento es desde it++
+    quickSort(*vec, 0, vec->size()-1);
     copyV2L(li,*vec);
 
     createFile(li);
