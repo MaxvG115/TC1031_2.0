@@ -96,12 +96,12 @@ void createFile(list<record>& li){
         exit(0);
     }
     for (it = li.begin(); it != li.end(); it++){
-        archivoResultados << *it.IPqrt1 << ".";
-        archivoResultados << *it.IPqrt2 << ".";
-        archivoResultados << *it.IPqrt3 << ".";
-        archivoResultados << *it.IPqrt4 << ":";
-        archivoResultados << *it.port << " ";
-        archivoResultados << *it.status << endl;
+        archivoResultados << it->IPqrt1 << ".";
+        archivoResultados << it->IPqrt2 << ".";
+        archivoResultados << it->IPqrt3 << ".";
+        archivoResultados << it->IPqrt4 << ":";
+        archivoResultados << it->port << " ";
+        archivoResultados << it->status << endl;
     }
     archivoResultados.close();
 }
