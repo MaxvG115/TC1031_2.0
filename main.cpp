@@ -90,16 +90,18 @@ void copyV2L(list<record>& li,vector<record>& vec){
 
 void createFile(list<record>& li){
     ofstream archivoResultados("bitacoraOrdenada-Eq#6.txt");
+    list<record>::iterator it;
+
     if (archivoResultados.fail()){
         exit(0);
     }
-    for (int i = 0; i< li.size(); i++){
-        archivoResultados << li[i].IPqrt1 << ".";
-        archivoResultados << li[i].IPqrt2 << ".";
-        archivoResultados << li[i].IPqrt3 << ".";
-        archivoResultados << li[i].IPqrt4 << ":";
-        archivoResultados << li[i].port << " ";
-        archivoResultados << li[i].status << endl;
+    for (it = li.begin(); it != li.end(); it++){
+        archivoResultados << *it.IPqrt1 << ".";
+        archivoResultados << *it.IPqrt2 << ".";
+        archivoResultados << *it.IPqrt3 << ".";
+        archivoResultados << *it.IPqrt4 << ":";
+        archivoResultados << *it.port << " ";
+        archivoResultados << *it.status << endl;
     }
     archivoResultados.close();
 }
