@@ -48,6 +48,31 @@ struct record{
             }
           return 0;
         }
+
+        bool operator==(record& a){
+            if(this->IPqrt1==a.IPqrt1 && this->IPqrt2==a.IPqrt2 && this->IPqrt3==a.IPqrt3 && this->IPqrt4==a.IPqrt4){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        record(){
+            this->date="";
+            this->IPqrt1="";
+            this->IPqrt2="";
+            this->IPqrt3="";
+            this->IPqrt4="";
+        }
+
+        //contructor para el formato de entrada
+        record(string ip1,string ip2, string ip3, string ip4){
+            this->date="";
+            this->IPqrt1=ip1;
+            this->IPqrt2=ip2;
+            this->IPqrt3=ip3;
+            this->IPqrt4=ip4;
+        }
 };
 
 //funcion para leer archivo y guardar los datos en un vector
@@ -88,6 +113,7 @@ void copyV2L(list<record>& li,vector<record>& vec){
     }
 }
 
+//funcion para imprimir el documento ordenado completo
 void createFile(list<record>& li){
     ofstream archivoResultados("bitacoraOrdenada-Eq#6.txt");
     list<record>::iterator it;
@@ -139,6 +165,18 @@ void quickSort(vector<record>& v, int low, int high) {
   }
 }
 
+//busqueda lineal para la lista
+list<record>::iterator LinealSearchLi(list<record>& li, record& rec){
+    list<record>::iterator it=li.begin();
+
+    for(int i=0;i<li.size();i++){
+        if(rec == *it){
+            return it;
+        }else{
+            it++;
+        }
+    }
+}
 int main(){
     //creamos variables iniciales
     vector<record>* vec= new vector<record>();
@@ -149,6 +187,12 @@ int main(){
     //por alguna razon guarda los datos desde una posicion despues del prinipio del begin. para acceder al primer elemento es desde it++
     quickSort(*vec, 0, vec->size()-1);
     copyV2L(li,*vec);
+
+
+    record r("1","47","156","72");
+    it=LinealSearchLi(li,r);
+
+    cout<<it->IPqrt1<<"."<<it->IPqrt2<<"."<<it->IPqrt3<<"."<<it->IPqrt4;
 
     createFile(li);
     return 0;
