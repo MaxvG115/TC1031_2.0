@@ -12,6 +12,7 @@
 #include <fstream>
 #include <list>
 #include <vector>
+#include <utility>
 
 using namespace std;
 
@@ -25,7 +26,7 @@ struct record{
         string port;
         string status;
 
-        //funcion para comparar dos fechas
+        //funcion para comparar dos ips
         bool operator<=(record& a){
             if(stoi(this->IPqrt1)<stoi(a.IPqrt1)){
                 return true;
@@ -49,6 +50,7 @@ struct record{
           return 0;
         }
 
+        //operador para saber si dos records son iguales
         bool operator==(record& a){
             if(this->IPqrt1==a.IPqrt1 && this->IPqrt2==a.IPqrt2 && this->IPqrt3==a.IPqrt3 && this->IPqrt4==a.IPqrt4){
                 return true;
@@ -56,7 +58,8 @@ struct record{
                 return false;
             }
         }
-
+        
+        //constructor default
         record(){
             this->date="";
             this->IPqrt1="";
@@ -166,12 +169,16 @@ void quickSort(vector<record>& v, int low, int high) {
 }
 
 //busqueda lineal para la lista
-list<record>::iterator LinealSearchLi(list<record>& li, record& rec){
+pair<bool,list<record>::iterator> LinealSearchLi(list<record>& li, record& rec){
     list<record>::iterator it=li.begin();
+    pair<bool,list<record>::iterator> pa;
+    pa.first=false;
 
     for(int i=0;i<li.size();i++){
         if(rec == *it){
-            return it;
+            pa.first=true;
+            pa.second=it;
+            return pa;
         }else{
             it++;
         }
@@ -179,41 +186,73 @@ list<record>::iterator LinealSearchLi(list<record>& li, record& rec){
 }
 
 //funcion que imprima en un rango
-void printR(list<record>::iterator ittop, list<record>::iterator itbottom){
+void printR(list<record>::iterator ittop, list<record>::iterator itbottom,int n){
+    ofstream fileS("salida"+to_string(n)+"-Eq6.txt");
+    string txt;
+
     while(!(*ittop==*itbottom)){
-        cout<<ittop->date<<" "<<ittop->IPqrt1<<"."<<ittop->IPqrt2<<"."<<ittop->IPqrt3<<"."<<ittop->IPqrt4<<":"<<ittop->port<<" "<<ittop->status<<endl;
+        fileS<<ittop->date<<" "<<ittop->IPqrt1<<"."<<ittop->IPqrt2<<"."<<ittop->IPqrt3<<"."<<ittop->IPqrt4<<":"<<ittop->port<<" "<<ittop->status<<endl;
         ittop++;
     }
-    cout<<itbottom->date<<" "<<itbottom->IPqrt1<<"."<<itbottom->IPqrt2<<"."<<itbottom->IPqrt3<<"."<<itbottom->IPqrt4<<":"<<itbottom->port<<" "<<itbottom->status<<endl;
-}
+    fileS<<itbottom->date<<" "<<itbottom->IPqrt1<<"."<<itbottom->IPqrt2<<"."<<itbottom->IPqrt3<<"."<<itbottom->IPqrt4<<":"<<itbottom->port<<" "<<itbottom->status<<endl;
 
+    fileS.close();
+}
 
 
 int main(){
     //creamos variables iniciales
     vector<record>* vec= new vector<record>();
     list<record> li;
-    list<record>::iterator it=li.begin();
-    list<record>::iterator it2=li.begin();
+    pair<bool,list<record>::iterator> f;
+    pair<bool,list<record>::iterator> s;
 
-
+    //leemos y guardamos los registros en un vector
     readFile(*vec);
     //por alguna razon guarda los datos desde una posicion despues del prinipio del begin. para acceder al primer elemento es desde it++
+    //ordenamos los datos
     quickSort(*vec, 0, vec->size()-1);
+    //pasamos los datos a la lista
     copyV2L(li,*vec);
-
-
-    record r("1","47","156","72");
-    record r2("3","68","452","75");
-    it=LinealSearchLi(li,r);
-    it2=LinealSearchLi(li,r2);
-
-    printR(it,it2);
-
-
-
-    
-
+    //creacion bitacora ordenada
     createFile(li);
+    //borramos el vector
+    delete vec;
+
+    //hacemos el menu
+    bool controlador = false;
+    string arr[4];
+    int contador=1;
+
+    do{
+        cout<<"ingrese la ip menor:"<<endl;
+        for(int i=0;i<3;i++){
+            getline(cin,arr[i],'.');
+        }
+        getline(cin,arr[3]);
+        record top(arr[0],arr[1],arr[2],arr[3]);
+
+        //pedimos los datos de la segunda ip y los procesamos
+        cout<<"ingrese la ip mayor:"<<endl;
+        for(int i=0;i<3;i++){
+            getline(cin,arr[i],'.');
+        }
+        getline(cin,arr[3]);
+        record bottom(arr[0],arr[1],arr[2],arr[3]);
+
+        //creamos instancias de record para pasarlas al rango 
+        f=LinealSearchLi(li,top);
+        s=LinealSearchLi(li,bottom);
+
+        //imprimimos el rango
+        printR(f.second,s.second,contador);
+        contador++;
+        
+        //confirmacion para continuar
+        cout<<"presione 0 para salir o 1 para continuar: "<<endl;
+        cin>>controlador;
+        cin.ignore();
+    }while(controlador);
+        
     return 0;
 }
