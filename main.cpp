@@ -177,11 +177,25 @@ list<record>::iterator LinealSearchLi(list<record>& li, record& rec){
         }
     }
 }
+
+//funcion que imprima en un rango
+void printR(list<record>::iterator ittop, list<record>::iterator itbottom){
+    while(!(*ittop==*itbottom)){
+        cout<<ittop->date<<" "<<ittop->IPqrt1<<"."<<ittop->IPqrt2<<"."<<ittop->IPqrt3<<"."<<ittop->IPqrt4<<":"<<ittop->port<<" "<<ittop->status<<endl;
+        ittop++;
+    }
+    cout<<itbottom->date<<" "<<itbottom->IPqrt1<<"."<<itbottom->IPqrt2<<"."<<itbottom->IPqrt3<<"."<<itbottom->IPqrt4<<":"<<itbottom->port<<" "<<itbottom->status<<endl;
+}
+
+
+
 int main(){
     //creamos variables iniciales
     vector<record>* vec= new vector<record>();
     list<record> li;
     list<record>::iterator it=li.begin();
+    list<record>::iterator it2=li.begin();
+
 
     readFile(*vec);
     //por alguna razon guarda los datos desde una posicion despues del prinipio del begin. para acceder al primer elemento es desde it++
@@ -190,9 +204,15 @@ int main(){
 
 
     record r("1","47","156","72");
+    record r2("3","68","452","75");
     it=LinealSearchLi(li,r);
+    it2=LinealSearchLi(li,r2);
 
-    cout<<it->IPqrt1<<"."<<it->IPqrt2<<"."<<it->IPqrt3<<"."<<it->IPqrt4;
+    printR(it,it2);
+
+
+
+    
 
     createFile(li);
     return 0;
