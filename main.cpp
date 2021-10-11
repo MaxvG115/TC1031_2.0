@@ -138,9 +138,9 @@ void createFile(list<record>& li){
 
 //funcion de intercambio de variables
 void swap(record *a, record *b) {
-  record t = *a;
-  *a = *b;
-  *b = t;
+    record t = *a;
+    *a = *b;
+    *b = t;
 }
 
 //hacemos la particion de quicksort
@@ -150,10 +150,10 @@ int partition(vector<record>& v, int low, int high) {
 
   for (int j = low; j < high; j++) {
     if (v[j] <= pivot) {
-      i++; 
-      swap(&v[i], &v[j]);
+        i++; 
+        swap(&v[i], &v[j]);
     }
-  }
+}
   
   swap(&v[i + 1], &v[high]);
   return (i + 1);
