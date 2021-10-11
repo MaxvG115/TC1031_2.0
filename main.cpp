@@ -244,14 +244,20 @@ int main(){
         f=LinealSearchLi(li,top);
         s=LinealSearchLi(li,bottom);
 
-        //imprimimos el rango
-        printR(f.second,s.second,contador);
-        contador++;
+        if(f.first && s.first){
+            //imprimimos el rango
+            printR(f.second,s.second,contador);
+            contador++;
+            
+            //confirmacion para continuar
+            cout<<"presione 0 para salir o 1 para continuar: "<<endl;
+            cin>>controlador;
+            cin.ignore();
+        }else{
+            cout<<"Asegurese de ingresar ips existentes"<<endl;
+            controlador=true;
+        }
         
-        //confirmacion para continuar
-        cout<<"presione 0 para salir o 1 para continuar: "<<endl;
-        cin>>controlador;
-        cin.ignore();
     }while(controlador);
         
     return 0;
